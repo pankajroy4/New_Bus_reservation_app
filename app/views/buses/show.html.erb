@@ -1,0 +1,67 @@
+<section>
+	<div class = "container py-5">
+		<div class = "row justify-content-center">
+			<div class = "col-md-8 col-lg-8 col-xl-8">
+				<div class = "card text-black shadow">
+					<div class = "text-center">
+						<% if @bus.main_image.attached? %>
+							<%= image_tag @bus.main_image, class: "card-img-top", style: "width:350px" %>
+						<% else %>
+							<%= image_tag "bus_logo2.png", class: "card-img-top", style: "width:200px" %>
+						<% end %>
+					</div>
+					<div class = "card-body pt-0 mt-0">
+						<div class = "text-center">
+							<h4 class = "card-title">Bus name : <%= @bus.name %></h4>
+							<p class = "text-muted mb-2">Owner : <%= @busowner.name %></p>
+						</div>
+					<div>
+					<div class = "d-flex justify-content-between">
+						<span>Total number of seats: </span><span><%= @bus.total_seat %></span>
+					</div>
+					<div class = "d-flex justify-content-between">
+						<span>Registration no: </span><span><%= @bus.registration_no %></span>
+					</div>
+					<div class = "d-flex justify-content-between">
+						<span>Route:</span><span><%= @bus.route %></span>
+					</div>
+					<% if current_user.admin? || current_user.bus_owner? %>
+							<div class = "d-flex justify-content-between">
+								<span>Status:</span>
+								<%= turbo_frame_tag @bus do %>
+										<span ><%= @bus.approved ? "Approved" : "Not Approved" %></span>
+								<% end %>
+							</div>
+					<% end %>
+					<div class = "row">
+						<div class = "d-flex flex-column flex-sm-row justify-content-evenly">
+
+							<% if policy(@bus).view? %>
+								<%= link_to "Update Bus", edit_bus_owner_bus_path(@busowner, @bus), class: "btn btn-outline-success m-2" %>
+								<%= button_to "Remove Bus", bus_owner_bus_path(@busowner, @bus), method: :delete, class: "btn btn-outline-danger  m-2", style: "width: 95%;" %>
+								<%= link_to "Reservations List", get_resv_list_path(@bus), class: "btn btn-outline-success m-2" %>
+							<% end %>
+							
+							<%= turbo_frame_tag "book_#{@bus.id}" do %>
+								<% if @bus.approved? %>
+									<%= link_to "Book Ticket", new_bus_reservation_path(@bus.id), class: "btn btn-outline-success  m-2 book", data: { turbo_frame: "_top" } %>
+								<% end %>
+							<% end %>
+
+							<% if current_user.admin? %>
+								<%= turbo_frame_tag "turbo_buttons_#{@bus.id}" do %>
+									<% if @bus.approved? %>
+										<%= link_to "Disapprove", disapprove_path(@busowner.id, @bus.id), data: { turbo_frame: "bus_#{@bus.id}" }, data: { 'turbo-method': :patch }, class: "btn btn-outline-danger m-2" %>
+									<% else %>
+										<%= link_to "Approve", approve_path(@busowner.id, @bus.id), data: { turbo_frame: "bus_#{@bus.id}" }, data: { 'turbo-method': :patch }, class: "btn btn-outline-success m-2" %>
+									<% end %>
+								<% end %>
+							<% end %>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,25 @@
+
+<div class = "col-md-12 col-xl-12 text-center mt-3 ">
+  <div class = "card-block text-center">
+    <h2 class = "text-right"><span class="border-bottom">Bus Owner Lists</span></h2>
+  </div>
+</div>
+
+<div class = "container py-4">
+  <div class = "row">
+    <div class = "col-lg-12 mx-auto">
+      <ul class = "list-group shadow">
+        <% @bus_owners.each do |bus_owner| %>
+          <li class = "list-group-item">
+              <div class = "text-center p-3">
+                <h3 class = "mt-0 font-weight-bold mb-2">
+                  <%= link_to bus_owner.name, bus_owner %> 
+                </h3>
+              </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+

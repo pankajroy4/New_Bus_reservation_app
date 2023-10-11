@@ -1,0 +1,13 @@
+<% if resource.errors.any? %>
+  <div id = "error_explanation" data-turbo-cache = "false">
+		<section class = "alert alert-danger myalert">
+			<h6 class = "m-0 p-0">Oops! Your information could not be saved!</h6>
+			<h6 class = "m-0 p-0">Please correct the following <%= pluralize(resource.errors.size, "error" )%>:</h6>
+			<ul class = "m-0 p-0" >
+				<% resource.errors.full_messages.each do | message | %>
+					<li class = "m-0 p-0"><%= message %></li>
+				<% end %>
+			</ul>
+		</section>
+  </div>
+<% end %>

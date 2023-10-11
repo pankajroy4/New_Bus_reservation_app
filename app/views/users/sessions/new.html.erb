@@ -1,0 +1,49 @@
+<%= turbo_frame_tag "otp" do %>
+	<%= render "shared/errors", object: resource %>
+	<section>
+		<div class = "container py-4">
+			<div class = "row d-flex justify-content-center align-items-center">
+				<div class = "col col-xl-8">
+					<div class = "card shadow" style = "border-radius: 1rem;">
+						<div class = "row g-0">
+							<div class = "col-md-4 col-lg-5 d-none d-md-block text-center">
+								<%= image_tag "login.jpg", class: "img-fluid", style: "border-radius: 10px" %>
+							</div>
+							<div class = "col-md-6 col-lg-7 d-flex align-items-center">
+								<div class = "card-body p-2 p-mg-5 text-black">
+									<%= form_with(url: :verify_login, method: :patch) do |f| %>
+										<div class = "d-flex align-items-center mb-2 pb-0">
+										<span class = "h1 fw-bold mb-0">
+											<%= image_tag "bus_logo2.png", class: "form_img" %> 
+										</span>
+										<span class = "h2 fw-bold mb-0"> Login</span>
+									</div>
+										<h5 class = "fw-normal mb-1 pb-0" style = "letter-spacing: 1px;">Sign in to your account</h5>  
+										<div class = "form-outline mb-2">
+											<%= f.label :email, class: "mb-1" %><br />
+											<%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Enter email", class: "form-control form-control-md" %>
+										</div>
+										<div class = "form-outline mb-1">
+											<%= f.label :password, class: "mb-1" %><br />
+											<%= f.password_field :password, autocomplete: "current-password", placeholder: "Enter password", class: "form-control form-control-md" %>      
+										</div>
+										<% if devise_mapping.rememberable? %>
+											<div class = "field">
+												<%= f.check_box :remember_me %>
+												<%= f.label :remember_me %>
+											</div>
+										<% end %>
+										<div class = "pt-3 mb-3">
+											<%= f.submit "Log In", data: { turbo_frame: "_top" }, class: "btn btn-dark btn-mg btn-block" %>
+										</div>
+										<%= render "users/shared/links" %>
+									<% end %>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+<% end %>

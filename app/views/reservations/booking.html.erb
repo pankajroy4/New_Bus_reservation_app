@@ -1,0 +1,34 @@
+<div class = "container mt-4">
+	<div class = "row flex justify-content-center m-4 shadow xx">
+		<div class = "card-header bg-black text-center xx py-2 mb-3" style = "color: #ff0000;">
+			<h5>Your Bookings</h5>
+		</div>
+		<% @bookings.each do |b| %>
+			<%= turbo_frame_tag b, class: "col-md-5 col-xl-4 mb-4" do %>
+				<div class = "card mt-2" style = "border: 1px solid #ced4da; border-radius: 8px;">
+					<div class = "card-header xx bg-black text-center py-2" style = "color: #00ff00;">
+						<h6>Ticket ID:  <%= b.id %> </h6>
+					</div>
+					<div class = "card-body">
+						<p class = "card-text m-0"><strong>Seat ID:</strong> <%= b.seat_id %></p>
+						<p class = "card-text m-0"><strong>Seat No:</strong> <%= b.seat.seat_no %></p>
+						<p class = "card-text m-0"><strong>Bus ID:</strong> <%= b.bus.id %></p>
+						<p class = "card-text m-0"><strong>Passenger ID:</strong> <%= b.user.id %></p>
+						<p class = "card-text m-0"><strong>Journey Date:</strong> <%= b.date %></p>
+						<p class = "card-text m-0"><strong>Passenger Name:</strong> <%= b.user.name %></p>
+						<p class = "card-text m-0"><strong>Bus Name:</strong> <%= b.bus.name %></p>
+						<p class = "card-text m-0"><strong>Bus Route:</strong> <%= b.bus.route %></p>
+					</div>
+					<div class = "card-footer text-center">
+						<%= link_to "Cancel Ticket", bus_reservation_path(b.bus.id, b.id), class: "btn btn-outline-danger", data: { 'turbo-method': :delete, turbo_frame: "_top" } %>
+					</div>
+				</div>
+			<% end %>
+		<% end %>
+	</div>
+</div>
+
+
+
+
+

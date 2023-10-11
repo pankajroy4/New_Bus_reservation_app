@@ -1,0 +1,47 @@
+
+<nav class = "navbar navbar-expand-lg"> 
+	<div class = "container-fluid">
+		<%= image_tag "bus_logo2.png", class: "logo" %> 
+		<%= link_to "Bus Reservation", root_path, class: "navbar-brand text-white btn btn-outline-light" %> 
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+
+			<ul class = "navbar-nav me-auto mb-2 mb-lg-0">
+				<% if signed_in? %>
+					<li class = "nav-item">
+						<a class = "nav-link" >
+							<%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "btn btn-outline-light" %>
+						</a>
+					</li>
+					<li class = "nav-item username">
+						<% if current_user&.admin? %>
+							<%= link_to current_user.name, admin_show_path(current_user&.id), class: "btn btn-outline-light username_link" %>
+							<% else %>
+							<%= link_to current_user.name, current_user, class: "btn btn-outline-light username_link" %>
+						<% end %>
+					</li>
+				<% end %>
+				<% unless signed_in? %>
+							<li> <%= link_to "Login", new_user_session_path, class: "btn btn-outline-light mx-2 " %></li>
+							<li> <%= link_to "Signup", new_user_registration_path, class: "btn btn-outline-light " %></li>
+				<% end %>
+			</ul>
+			<%= form_with(url: :search, method: :get) do |f| %>
+				<div class = "input-group gap-2">
+					<%= f.text_field :user_query, value: params[:user_query], class: "form-control search me-2", placeholder: "Type bus name or route" %>
+					<div class = "input-group-append">
+						<%= f.submit "Search", class: "btn btn-outline-light", data: { turbo_frame: "searched_bus" } %>
+					</div>
+				</div>
+			<% end %>
+			
+		</div>
+	</div>
+</nav>
+
+		
+
+
+

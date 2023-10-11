@@ -1,0 +1,57 @@
+
+<% # USED BY BUS OWNER %>
+
+<div class = "container mt-5">
+  <div class = "row justify-content-center">
+    <div class = "col-md-6">
+      <div class = "card">
+        <div class = "card-body text-center">
+					<%= form_with(url: :get_resv_list, method: :get) do |f| %>
+						<h5 class = "card-title"><%= f.label :date, "Please select Date ", class: "date_label text-decoration-underline mb-1" %></h5>
+						<div id = "datepicker" class = "input-group date col-md-6" data-date-format = "mm-dd-yyyy">
+								<%= f.date_field :date, value: @date, class: "datepicker form-control text-center", required: "" %>
+						</div>
+						<%= f.hidden_field :bus_id, value: @bus.id %>
+						<%= f.submit "See reservations", class: "btn btn-outline-success  mt-1", data: { turbo_frame: "lists" } %>
+					<% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= turbo_frame_tag "lists" do %>
+	<% unless @reservations.empty? %>
+		<div class = "container mt-4">
+			<div class = "row flex justify-content-center m-4 shadow" style = "border-radius:10px;">
+				<div class = "card-header bg-black  text-center py-2 mb-3 xx" style = "color: #ff0000;">
+						<h6> Reservations for : <%= @bus.name %> on <%= @date %>  </h6>
+				</div>
+				<% @reservations.each do |r| %>
+					<div class = "col-md-4 mb-4  mt-3">
+						<div class = "card" style = "border: 1px solid #ced4da; border-radius: 8px;">
+							<div class = "card-header xx bg-black text-center py-2" style = " color: #00ff00;">
+								<h6>Ticket ID: <%= r.id %> </h6>
+							</div>
+							<div class = "card-body">
+								<p class = "card-text m-0"> <strong>Seat ID:</strong> <%= r.seat_id %></p>
+								<p class = "card-text m-0"> <strong>Seat No:</strong> <%= r.seat.seat_no %></p>
+								<p class = "card-text m-0"> <strong>Passenger ID:</strong> <%= r.user.id %></p>
+								<p class = "card-text m-0"> <strong>Passenger Name:</strong> <%= r.user.name %></p>
+							</div>
+						</div>
+					</div>
+				<% end %>
+			</div>
+		</div>
+	<% end %>
+<% end %>
+
+
+
+
+
+
+
+
+

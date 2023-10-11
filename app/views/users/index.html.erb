@@ -1,0 +1,6 @@
+<section class = "user">
+  <% @users.each do | user | %>
+  <h1> <%= link_to user.name ,user_path(user.id) %> </h1>
+  <% end %> 
+</section>
+

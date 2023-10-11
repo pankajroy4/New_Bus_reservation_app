@@ -1,0 +1,47 @@
+<%= render "shared/errors", object: resource %>
+<% unless signed_in? %>
+	<section>
+		<div class = "container py-5 ">
+			<div class = "row d-flex justify-content-center align-items-center ">
+				<div class = "col col-xl-8">
+					<div class = "card shadow" style = "border-radius: 1rem;">
+						<div class = "row g-0">
+							<div class = "col-md-4 col-lg-5 d-none d-md-block">
+								<%= image_tag "forget_password.png", class: "img-fluid", style: "border-radius:10px" %>
+							</div>
+							<div class = "col-md-6 col-lg-7 d-flex align-items-center">
+								<div class = "card-body pt-1 p-md-3 text-black">
+									<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+
+										<div class = "d-flex align-items-center mb-3 pb-1">
+											<span class = "h1 fw-bold mb-0">
+												<%= image_tag "bus_logo2.png", class: "form_img" %>
+											</span>
+											<span class = "h2 fw-bold mb-0"> Forgot Password</span>
+										</div>
+										<div class = "form-outline mb-2 pb-2">
+											<%= f.email_field :email, placeholder: "Enter Email", required: "", autofocus: true, class: "form-control form-control-mg" %>
+										</div>
+										
+										<div class = "pt-1 mb-3">
+											<%= f.submit "Reset password", class: "btn btn-outline-success btn-mg btn-block" %>
+										</div>
+								
+										<p class = "mb-0 pb-lg-1 text-muted" style = 'color: #393f81;'>
+											Login | <%= link_to "Login here", new_user_session_path %>
+											<br>
+											Signup | <%= link_to "Click here", new_user_registration_path %>
+										</p>
+										
+										<a href = "#!" class = "small text-muted">Terms of use </a>
+										<a href = "#!" class = "small text-muted"> | Privacy policy</a>        
+									<% end %>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+<% end %>

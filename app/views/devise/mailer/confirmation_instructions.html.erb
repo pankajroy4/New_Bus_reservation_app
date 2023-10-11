@@ -1,0 +1,4 @@
+<p>Welcome <span><%= @resource.role %>:</span> <%= @email %>!</p>
+<p>You can confirm your account email through the link below:</p>
+<p><%= link_to "Confirm my account", verify_url(confirmation_token: @token) %></p>
+<p>Your OTP : <%= @resource.otp %></p>

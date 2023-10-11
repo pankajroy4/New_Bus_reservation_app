@@ -1,0 +1,11 @@
+<%= turbo_stream.update @bus do %>
+  <span ><%= @bus.approved ? "Approved" : "Not Approved" %></span>
+<% end %>
+
+<%= turbo_stream.update  "turbo_buttons_#{@bus.id}"  do%>
+  <%= link_to "Approve", approve_path(@busowner.id, @bus.id),  data: {turbo_frame: @bus}, data: {'turbo-method': :patch}, class: "btn btn-outline-success m-2" %>
+<% end %>
+
+<%= turbo_stream.update "book_#{@bus.id}" , ""%>
+
+<%= turbo_stream.update "flash", partial: "layouts/flash" %>

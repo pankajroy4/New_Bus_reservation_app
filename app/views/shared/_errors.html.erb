@@ -1,0 +1,12 @@
+<% unless object == nil %>
+	<% if object.errors.any? %>
+		<section class = "errors flash__message bg-danger">
+			<h6 class = "m-0 p-0">Please correct the following <%= pluralize(object.errors.size, "error") %>:</h6>
+			<ul class = "m-0 p-0" >
+				<% object.errors.full_messages.each do | message | %>
+						<li class = "m-0 p-0"><%= message %></li>
+				<% end %>
+			</ul>
+		</section>
+	<% end %>
+<% end %>

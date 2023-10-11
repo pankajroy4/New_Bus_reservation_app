@@ -1,0 +1,45 @@
+
+<%= turbo_frame_tag "otp" do %>
+	<section>
+		<div class = "container py-5 ">
+			<div class = "row d-flex justify-content-center align-items-center ">
+				<div class = "col col-xl-8">
+					<div class = "card shadow" style = "border-radius: 1rem;">
+						<div class = "row g-0">
+							<div class = "col-md-4 col-lg-5 d-none d-md-block m-2">
+								<%= image_tag "otp1.png", class: "img-fluid", style: "border-radius:10px" %>
+							</div>
+							<div class = "col-md-6 col-lg-5 d-flex align-items-center">
+								<div class = "card-body pt-1 p-md-3 text-black">
+
+									<%= form_with model: @user, url: user_confirmation_path(confirmation_token: @token), method: :get do |f| %>
+		
+										<div class = "d-flex align-items-center mb-3 pb-1">
+											<span class = "h1 fw-bold mb-0">
+												<%= image_tag "bus_logo2.png", class: "form_img" %>
+											</span>
+											<span class = "h3 fw-bold mb-1"> OTP verifiction</span>
+										</div>
+
+										<div class = "form-outline mb-2 pb-2">
+                      <%= f.hidden_field :confirmation_token, value: @token %>
+                      <%= f.label :otp, "OTP", class: "m-2 text-bold" %>
+                      <%= f.text_field :otp, value: "", placeholder: "Enter OTP", required: "", autofocus: true, class: "form-control form-control-md" %>
+										</div>
+										
+										<div class = "pt-1 mb-3">
+                      <%= f.submit "Submit", data: { turbo_frame: "_top" }, class: "btn btn-outline-success btn-mg btn-block" %>
+										</div>   
+									<% end %>
+                  <div class = "pt-1 mb-3">
+                    <%= link_to "Confirmation instructions expired?", new_confirmation_path(resource_name), data: { turbo_frame: "_top" }, class: "btn btn-outline-danger btn-mg btn-block" %><br/>
+									</div> 
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+<% end %>
