@@ -7,11 +7,10 @@ FactoryBot.define do
       "MP #{n}123456"
     end
     approved { false }
-    association :bus_owner
-    
+    association :user
+
     trait :approved_bus do
       approved { true }
     end
   end
 end
-

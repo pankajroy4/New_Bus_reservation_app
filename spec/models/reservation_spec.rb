@@ -1,22 +1,21 @@
-
-require 'rails_helper'
-require 'shoulda/matchers'
+require "rails_helper"
+require "shoulda/matchers"
 
 RSpec.describe Reservation, type: :model do
   let(:bus_owner) { create(:bus_owner) }
-  let(:bus) { create(:bus, bus_owner: bus_owner, approved: true) }
+  let(:bus) { create(:bus, user: bus_owner, approved: true) }
   let(:user) { create(:user) }
   let(:seat) { create(:seat, bus: bus) }
   let(:date) { Date.today }
 
-  describe 'validations' do
-    it { should validate_presence_of(:date).with_message('should be given') }
+  describe "validations" do
+    it { should validate_presence_of(:date).with_message("should be given") }
 
-    context 'when the bus is not approved' do
+    context "when the bus is not approved" do
       before { bus.update(approved: false) }
 
-      it 'is not valid' do
-        reservation = build(:reservation, bus: bus, user: user, seat:  bus.seats.first , date: date)
+      it "is not valid" do
+        reservation = build(:reservation, bus: bus, user: user, seat: bus.seats.first, date: date)
         expect(reservation).not_to be_valid
       end
     end

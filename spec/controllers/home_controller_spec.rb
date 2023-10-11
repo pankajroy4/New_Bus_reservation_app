@@ -2,8 +2,8 @@ require "rails_helper"
 
 RSpec.describe HomesController, type: :controller do
   let(:busowner) { create(:bus_owner) }
-  let(:bus1) { create(:bus, bus_owner: busowner, approved: true, name: "Red Bus") }
-  let(:bus2) { create(:bus, bus_owner: busowner, approved: true, name: "Volvo Bus") }
+  let(:bus1) { create(:bus, user: busowner, approved: true, name: "Red Bus") }
+  let(:bus2) { create(:bus, user: busowner, approved: true, name: "Volvo Bus") }
 
   describe "GET #index" do
     it "renders the index template" do

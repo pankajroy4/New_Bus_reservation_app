@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe ReservationsController, type: :controller do
   let(:user) { create(:user) }
   let(:busowner) { create(:bus_owner) }
-  let(:bus) { create(:bus, bus_owner: busowner, approved: true) }
+  let(:bus) { create(:bus, user: busowner, approved: true) }
   let(:seat) { create(:seat, bus: bus) }
   let(:reservation) { create(:reservation, bus: bus, user: user, seat: bus.seats.first, date: Date.today) }
 

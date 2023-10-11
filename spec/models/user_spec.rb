@@ -3,6 +3,8 @@ require "shoulda/matchers"
 
 RSpec.describe User, type: :model do
   let(:user) { create(:user) }
+  let(:busowner) { create(:bus_owner) }
+  let(:admin) { create(:admin) }
 
   context "Validations" do
     it { should validate_presence_of(:name) }
@@ -17,9 +19,11 @@ RSpec.describe User, type: :model do
     it { should have_many(:reservations).dependent(:destroy) }
   end
 
-  context "User type" do
-    it "has a defined user type" do
+  context "Role" do
+    it "has a defined user role" do
       expect(user.role).to eq("user")
+      expect(busowner.role).to eq("bus_owner")
+      expect(admin.role).to eq("admin")
     end
   end
 
@@ -37,7 +41,7 @@ RSpec.describe User, type: :model do
     it "generates OTP and sends OTP verification mail" do
       expect(user).to receive(:generate_otp).and_return(user.otp)
       otp_verification_mailer = double(deliver_now: true)
-      expect(OtpVerification).to receive(:otp_verification).with(user, user.otp).and_return(otp_verification_mailer)
+      expect(OtpVerificationMailer).to receive(:otp_verification_mailer).with(user, user.otp).and_return(otp_verification_mailer)
 
       user.generate_and_send_otp
     end
