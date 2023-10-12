@@ -17,9 +17,9 @@ class Reservation < ApplicationRecord
     bus.seats.where.not(id: seat_ids_booked)
   end
 
-  def self.check_booked?(seat_id, bus_id,date)
+  def self.check_booked?(seat_id, bus_id, date)
     result = Reservation.where(seat_id: seat_id, date: date, bus_id: bus_id)
-    !(result.blank?) 
+    !(result.blank?)
   end
 
   def self.create_reservations(user_id, bus_id, seat_ids, date)

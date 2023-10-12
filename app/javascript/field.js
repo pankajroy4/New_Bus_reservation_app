@@ -11,7 +11,7 @@ $(document).ready(function() {
 
     $('#registrationNumberField').hide();
 
-    if (selectedRole === 'Bus Owner') {
+    if (selectedRole === 'bus_owner') {
       $('#registrationNumberField').show();
     } else  {
       $('#registrationNumberField').hide();

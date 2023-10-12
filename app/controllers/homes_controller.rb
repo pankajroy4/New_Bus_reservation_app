@@ -1,6 +1,10 @@
 class HomesController < ApplicationController
   def index
     @approved_buses = Bus.where(approved: true)
+    respond_to do |format|
+      format.json { render json: @approved_buses }
+      format.html { render :index }
+    end
   end
 
   def search

@@ -4,8 +4,8 @@
       <div class = "col col-lg-6 mb-4 mb-lg-0">
         <div class = "card mb-3 shadow" style = "border-radius: .5rem;">
           <div class = "row g-0">
-            <div class="col-md-4 gradient-custom text-center" style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem; background-color: #F8F8FF; border-right-style:inset">
-              <%= image_tag "default_profile_icon.png", class: "img-fluid my-5", style: "width:80px" %>
+              <div class="col-md-4 gradient-custom text-center profile"> 
+              <%= image_tag "default_profile_icon.png", class: "img-fluid my-5 profile_pic", style: "width:80px" %>
               <h5> <%= @user.name %></h5>
               <p><%= @user.role %></p>
               <% if policy(@user).update? %>

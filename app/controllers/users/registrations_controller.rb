@@ -7,11 +7,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     super
   end
 
-  def create
-    params[:user][:role] = (params[:user][:role] == "User" ? "user" : "bus_owner")
-    super
-  end
-
   def after_sign_up_path_for(resource)
     user_path(resource)
   end

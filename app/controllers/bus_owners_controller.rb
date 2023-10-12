@@ -4,6 +4,10 @@ class BusOwnersController < ApplicationController
   def index
     @bus_owners = User.bus_owner
     authorize current_user, policy_class: BusOwnerPolicy
+    respond_to do |format|
+      format.json { render json: @bus_owners }
+      format.html { render :index }
+    end
   end
 
   def show

@@ -207,3 +207,23 @@ body::-webkit-scrollbar-thumb{
   background: linear-gradient(to right, green, red);
 }
 
+.profile{
+  border-top-left-radius: .5rem; 
+  border-bottom-left-radius: .5rem;
+  background-color: #F8F8FF;
+  border-right-style: inset;
+}
+
+
+// forDarkTheme
+// ==================================
+// .profile{
+//   border-top-left-radius: .5rem; 
+//   border-bottom-left-radius: .5rem;
+// }
+// .profile_pic{
+//   filter: brightness(0) invert(1);
+// }
+// nav{
+//   background-color: #ff4545 !important;
+// }
