@@ -3,6 +3,6 @@ class UserMailer < Devise::Mailer
     @resource = record
     @token = token
     @otp = otp
-    devise_mail(record, :confirmation_instructions, otp)
+    devise_mail(record, :confirmation_instructions)
   end
 end
