@@ -10,6 +10,10 @@ class HomesController < ApplicationController
   def search
     string = params[:user_query]
     @approved_buses = Bus.approved.search_by_name_or_route(string)
+    respond_to do |format|
+      format.json { render json: @approved_buses }
+      format.html { render :search }
+    end
   end
 
   def not_found

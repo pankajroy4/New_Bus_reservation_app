@@ -21,10 +21,12 @@ class ReservationsController < ApplicationController
       if @success
         format.html { redirect_to bookings_path(user_id), notice: "Booking successful!" }
         format.turbo_stream { redirect_to bookings_path(user_id), notice: "Booking successful!" }
+        format.json { render json: { bookings: current_user.reservations, message: "Booking successfull!" } }
       else
         flash[:alert] = "Select Date & Seats!"
         format.html { render :new, status: :unprocessable_entity }
         format.turbo_stream { flash.now[:alert] = "Select Date & Seats first!" }
+        format.json { render json: { errors: "Select Date & Seats first!" }, status: :unprocessable_entity }
       end
     end
   end
@@ -37,6 +39,12 @@ class ReservationsController < ApplicationController
       respond_to do |format|
         format.html { redirect_to bookings_path(current_user.id), alert: "Ticket cancelled!." }
         format.turbo_stream { flash.now[:alert] = "Ticket Cancelled!." }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to bookings_path(current_user.id), status: :unprocessable_entity, notice: "Ticket cancellation failed." }
+        format.json { render json: { message: "Ticket cancellation failed" }, status: :unprocessable_entity }
       end
     end
   end
@@ -44,6 +52,10 @@ class ReservationsController < ApplicationController
   def booking
     @user = params[:user_id]
     @bookings = policy_scope(Reservation)
+    respond_to do |format|
+      format.html { render :booking }
+      format.json { render json: { bookings: @bookings, user: current_user.as_json(except: [:otp, :otp_sent_at]) } }
+    end
   end
 
   private
