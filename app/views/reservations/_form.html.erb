@@ -26,17 +26,38 @@
 			<div class = "card-header bg-dark  text-center text-danger py-2 mb-3 xx">
 				<h6> Available seats for : <%= @bus.name %> on <%= @date %>  </h6>
 			</div>
-			<%= form_with(model: [@bus, @reservation]) do |f| %> 
-				<h5 class = "card-title text-decoration-underline mb-4">Choose seats</h5>
-				<div>
-					<%= f.collection_check_boxes(:seat_id, @available_seats, :id, :seat_no, { include_hidden: false }, class: "seat-checkbox", item_wrapper_class: "form-check", item_label_class: "form-check-label") %>
-				</div>
-				<%= f.hidden_field :bus_id, value: @bus.id %>
-				<%= f.hidden_field :user_id, value: @user.id %>
-				<%= f.hidden_field :date, value: date %>
-				<%= f.submit "Confirm Booking", class: "btn btn-outline-success m-4", data: { turbo_frame: "_top" } %>
-			<% end %>
+			<%= form_with(model: [@bus, @reservation]) do |f| %>
+  		<h5 class="card-title text-decoration-underline mb-4">Choose seats</h5>
+  		<div class="seat_label">
+				<% @available_seats.each do |seat| %>
+					<% if @booked_seats.include?(seat) %>
+						<%= f.check_box :seat_ids, { multiple: true, disabled: true, id: "reservation_#{seat.id}" }, seat.id, nil %>
+						<%= f.label seat.id, seat.seat_no %>
+					<% else %>
+						<%= f.check_box :seat_ids, { multiple: true, id: "reservation_#{seat.id}" }, seat.id, nil %>
+					<%= f.label seat.id, seat.seat_no %>
+					<% end %>
+				<% end %>
+  		</div>
+  		<%= f.hidden_field :bus_id, value: @bus.id %>
+  		<%= f.hidden_field :user_id, value: @user.id %>
+  		<%= f.hidden_field :date, value: date %>
+  		<%= f.submit "Confirm Booking", class: "btn btn-outline-success m-4", data: { turbo_frame: "_top" } %>
+		<% end %>
 		</div>
 	</div>
 	<% end %>
 <% end %>
+
+
+<% #= turbo_frame_tag "available_seats" do %>
+	<% # unless @bus.nil? || @reservation.nil? %>
+		<% #= form_with(model: [@bus, @reservation]) do |f| %> 
+				<% #= f.collection_check_boxes(:seat_id, @available_seats, :id, :seat_no, { include_hidden: false }, class: "seat-checkbox", item_wrapper_class: "form-check", item_label_class: "form-check-label") %>
+				<% #= f.hidden_field :bus_id, value: @bus.id %>
+				<% #= f.hidden_field :user_id, value: @user.id %>
+				<% #= f.hidden_field :date, value: date %>
+				<% #= f.submit "Confirm Booking", class: "btn btn-outline-success m-4", data: { turbo_frame: "_top" } %>
+			<% # end %>
+	<% # end %>
+<% # end %>
