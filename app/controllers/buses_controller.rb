@@ -7,6 +7,24 @@ class BusesController < ApplicationController
     @bus = Bus.find(params[:bus_id])
     @reservations = @bus.reservations.where(date: @date)
     authorize @bus
+
+    #Prepare data for chart
+    @arr =[]
+    @all_bus = @bus.user.buses 
+
+    @all_bus.each do |bus| 
+      hash = {name: bus.name, data: {}}
+      start_day_of_week = Date.today.beginning_of_week
+      (1..7).each do |x| 
+        total = bus.reservations.where("date = ?", start_day_of_week).count
+        name = start_day_of_week.strftime("%A")
+      
+        hash[:data][name] = total
+        start_day_of_week += 1
+      end
+      @arr << hash
+    end
+    
     respond_to do |format|
       format.html { render :reservations_list }
       # format.json { render json: { bus: @bus, reservations: @reservations } }
@@ -71,6 +89,10 @@ class BusesController < ApplicationController
       format.html { render :index }
     end
     # http://localhost:3000/bus_owners/2/buses.json
+
+    # <% (params[:page].to_i == 0 ? 1 : params[:page].to_i)%>
+    # <h6><%= link_to "Listed Bus", bus_owner_buses_path(user, params.permit.merge(page: params[:page].to_i + 1)   ), class: "btn btn-outline-success mt-2" %></h6> 
+    # Send data as quesr_string from view
   end
 
   def edit

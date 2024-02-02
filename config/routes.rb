@@ -1,6 +1,9 @@
 require "sidekiq/web"
 
 Rails.application.routes.draw do
+  authenticate :user, lambda { |user| user.admin? } do
+    mount RailsAdmin::Engine => '/123', as: 'rails_admin'
+  end
   root "homes#index"
   get "admin_show/:id", to: "admins#show", as: :admin_show
 

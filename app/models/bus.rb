@@ -1,5 +1,5 @@
 class Bus < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, -> { where(role: 'bus_owner') }
   has_many :reservations, dependent: :destroy
   has_many :seats, dependent: :destroy
   has_one_attached :main_image
@@ -55,7 +55,7 @@ class Bus < ApplicationRecord
   end
 
   def send_approval_email
-    ApprovalEmailsJob.set(wait: 1.week).perform_later(self)
+    ApprovalEmailsJob.set(wait: 5.seconds).perform_later(self)
   end
 end
 

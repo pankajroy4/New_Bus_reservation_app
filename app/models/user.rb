@@ -7,6 +7,9 @@ class User < ApplicationRecord
   has_many :reservations, dependent: :destroy
   has_many :buses, dependent: :destroy
 
+  # has_many :buses, -> { where(role: 'bus_owner') }, dependent: :destroy
+
+
   enum role: { admin: 0, bus_owner: 1, user: 2 }
   scope :admin, -> { where(role: "admin") }
   scope :user, -> { where(role: "user") }
