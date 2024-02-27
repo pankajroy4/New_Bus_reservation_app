@@ -55,7 +55,7 @@ class Bus < ApplicationRecord
   end
 
   def send_approval_email
-    ApprovalEmailsJob.set(wait: 5.seconds).perform_later(self)
+    ApprovalEmailsJob.set(wait: 1.seconds).perform_later(self)
   end
 end
 
