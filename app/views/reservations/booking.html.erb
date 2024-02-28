@@ -19,8 +19,17 @@
 						<p class = "card-text m-0"><strong>Bus Name:</strong> <%= b.bus.name %></p>
 						<p class = "card-text m-0"><strong>Bus Route:</strong> <%= b.bus.route %></p>
 					</div>
-					<div class = "card-footer text-center">
-						<%= link_to "Cancel Ticket", bus_reservation_path(b.bus.id, b.id), class: "btn btn-outline-danger", data: { 'turbo-method': :delete, turbo_frame: "_top" } %>
+					<div class = "card-footer text-center">	
+  				<!-- 
+						<%= link_to "Cancel Ticket", bus_reservation_path(b.bus.id, b.id), class: "btn btn-outline-danger", data: { 'turbo-method': :delete, turbo_frame: "_top" } %> 
+						link_to does not support disabling behaviour so :
+  					To achieve disabling behavior, use form or We can also use button_to tag as below, but have to style it a little 
+						<%= button_to "Cancel Ticket", bus_reservation_path(b.bus.id, b.id), method: :delete, form_class: "btn btn-outline-danger", data: { 'turbo-frame': "_top" }, style: "text-decoration: none;" %>
+					-->
+						
+						<%= form_with(url: bus_reservation_path(b.bus.id, b.id), method: :delete, local: true, data: { turbo_frame: "_top" }) do |form| %>
+  						<%= form.submit "Cancel Ticket", class: "btn btn-outline-danger", style: "text-decoration: none;" %>
+						<% end %>
 					</div>
 				</div>
 			<% end %>
