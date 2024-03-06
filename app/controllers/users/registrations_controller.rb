@@ -2,9 +2,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
 
-  def new
-    @type = "user" #needed in views to determine role
-    super
+  def create 
+    if params[:user][:role].in?(["user", "bus_owner"])
+      super
+    else
+      build_resource(sign_up_params)
+      flash[:alert] = "Invalid role"
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def after_sign_up_path_for(resource)

@@ -11,7 +11,7 @@
 							</div>
 							<div class = "col-md-6 col-lg-7 d-flex align-items-center">
 								<div class = "card-body p-2 p-mg-5 text-black">
-									<%= form_with(url: :verify_login, method: :patch) do |f| %>
+								<%= form_with(url: :user_session, method: :post ) do |f| %>
 										<div class = "d-flex align-items-center mb-2 pb-0">
 										<span class = "h1 fw-bold mb-0">
 											<%= image_tag "bus_logo2.png", class: "form_img" %> 
