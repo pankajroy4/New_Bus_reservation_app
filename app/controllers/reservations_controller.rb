@@ -71,17 +71,14 @@ class ReservationsController < ApplicationController
     reservations = current_user.reservations
 
     data = WickedPdf.new.pdf_from_string(
-      ApplicationController.new.render_to_string(
+      render_to_string(
         "reservations/#{subpath}",
         layout: "layouts/pdf_bg", locals: { user: current_user, reservations: reservations },
       ),
       header: { right: "page [page] of [topage]", left: Time.zone.now.strftime("%e %b, %Y") },
-      footer: { right: "abcgd", left: "dfsdfdf" },
+      footer: { right: "Thank You!", left: "Have a safe journey!" },
     )
     file_name = "ticket-#{Time.zone.now.to_i}-#{current_user.id}"
-
-    # send_data data, filename: "ticket.pdf", type: "application/pdf", disposition: "attachment"
-    #NOTE : For direct download , above line is sufficient. All below code  sholud be removed in case you want to apply direct download without db storage.
 
     save_path = Tempfile.new("your_bookings-#{Time.zone.now.to_i}-#{current_user.id}.pdf")
     File.open(save_path, "wb") do |file|
@@ -93,6 +90,28 @@ class ReservationsController < ApplicationController
     save_path.unlink
     redirect_to rails_blob_url(current_user.ticket_pdf, disposition: "attachment")
   end
+
+  #For direct Download:
+  # def download_pdf
+  #   subpath = "download_pdf"
+  #   reservations = current_user.reservations
+  
+  #   respond_to do |format|
+  #     format.html do
+  #       data = WickedPdf.new.pdf_from_string(
+  #         render_to_string(
+  #           "reservations/#{subpath}",
+  #           layout: "layouts/pdf_bg", locals: { user: current_user, reservations: reservations },
+  #         ),
+  #         header: { right: "page [page] of [topage]", left: Time.zone.now.strftime("%e %b, %Y") },
+  #         footer: { right: "Thank You", left: "Have a safe journey" },
+  #       )
+  
+  #       file_name = "ticket-#{Time.zone.now.to_i}-#{current_user.id}"
+  #       send_data(data, filename: file_name, type: "application/pdf", disposition: "attachment")
+  #     end
+  #   end
+  # end
 
   private
 

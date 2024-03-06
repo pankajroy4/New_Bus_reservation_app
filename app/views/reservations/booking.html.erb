@@ -3,7 +3,7 @@
 <div class="card-header bg-black text-center xx py-2 mb-3" style="color: #ff0000; display: flex; justify-content: space-evenly; align-items: center;">
   <h5>Your Bookings</h5>
 	<%if current_user.reservations.any?%>
-  <%= link_to "Download PDF", pdf_download_path, class: "btn btn-outline-light username_link" %>
+  <%= link_to "Download PDF", pdf_download_path, class: "btn btn-outline-light username_link",data: {turbo: :false} %>
 	<%end%>
 </div>
 
