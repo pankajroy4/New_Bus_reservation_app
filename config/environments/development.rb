@@ -40,7 +40,10 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = false
 
   config.action_mailer.perform_caching = false
-  config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
+  # config.action_mailer.default_url_options = { host: "localhost", port: "3000" }
+  config.action_mailer.default_url_options = { host: "192.168.1.49", port: '3000' }
+  Rails.application.routes.default_url_options = { host: "192.168.1.49", port: "3000" }
+  config.asset_host = "http://192.168.1.49:3000"
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -75,7 +78,7 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     address: "smtp.gmail.com",
     port: 587,
-    domain: "gemsessence.com",
+    domain: "gmail.com",
 
     user_name: Rails.application.credentials.smtp_username,
     password: Rails.application.credentials.smtp_password,

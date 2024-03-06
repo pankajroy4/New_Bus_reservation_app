@@ -2,6 +2,7 @@ class CreateBuses < ActiveRecord::Migration[7.0]
   def change
     create_table :buses do |t|
       t.string :name
+      t.string :main_image
       t.string :registration_no
       t.string :route
       t.integer :total_seat

@@ -1,8 +1,13 @@
 <div class = "container mt-4">
 	<div class = "row flex justify-content-center m-4 shadow xx">
-		<div class = "card-header bg-black text-center xx py-2 mb-3" style = "color: #ff0000;">
-			<h5>Your Bookings</h5>
-		</div>
+<div class="card-header bg-black text-center xx py-2 mb-3" style="color: #ff0000; display: flex; justify-content: space-evenly; align-items: center;">
+  <h5>Your Bookings</h5>
+	<%if current_user.reservations.any?%>
+  <%= link_to "Download PDF", pdf_download_path, class: "btn btn-outline-light username_link" %>
+	<%end%>
+</div>
+
+
 		<% @bookings.each do |b| %>
 			<%= turbo_frame_tag b, class: "col-md-5 col-xl-4 mb-4" do %>
 				<div class = "card mt-2" style = "border: 1px solid #ced4da; border-radius: 8px;">
