@@ -1,5 +1,17 @@
+<div class="row">
+  <div class="col-md-6">
+    <h2>Status changed for the bus: <%= @bus.name %></h2>
+    <h3>Hello, <%= @bus.user.name %>: Your bus status has been changed!</h3>
+    <p>Current Status: 
+      <span style="color: <%= @bus.approved ? "green" : "red" %>;"> 
+        <b><%= @bus.approved ? "Approved!" : "Approval rejected!" %></b>
+      </span>
+    </p>
+  </div>
 
-<h1> 
-   Status changed for the bus : <%= @bus.name %> 
-</h1>
-<p>Hello, <%= @bus.user.name %> : Your bus status has been changed! </p>
+  <% if @bus.main_image.attached? %>
+    <div class="col-md-6">
+     <%= image_tag rails_blob_url(@bus.main_image), style: "max-width: 50%; height: auto;", alt: 'Image' %>
+    </div>
+  <% end %>
+</div>
