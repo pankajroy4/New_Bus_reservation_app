@@ -1,15 +1,16 @@
 class Bus < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, -> { where(role: 'bus_owner') }
   has_many :reservations, dependent: :destroy
   has_many :seats, dependent: :destroy
   has_one_attached :main_image
   validates :name, :route, :registration_no, presence: true
-  validates :total_seat, presence: true, numericality: { greater_than_or_equal_to: 10 }
+  validates :total_seat, presence: true, numericality: { greater_than_or_equal_to: 10, less_than_or_equal_to: 50 }
   validates :registration_no, uniqueness: { message: "must be unique and govt. verified" }
 
   after_create :create_seats
   after_update :adjust_seats
-  before_destroy :delete_seats
+
+  # enum approved: { approved: true, not_approved: false }
 
   scope :approved, -> { where(approved: true) }
   
@@ -44,10 +45,6 @@ class Bus < ApplicationRecord
 
   private
 
-  def delete_seats
-    Seat.where(bus_id: id).delete_all
-  end
-
   def create_seats(n = 1)
     seats = (n..total_seat).map do |seat|
       Seat.new(bus_id: id, seat_no: seat)
@@ -63,12 +60,12 @@ class Bus < ApplicationRecord
     if total_seat > original_no_of_seat
       create_seats(original_no_of_seat + 1)
     elsif total_seat < original_no_of_seat
-      seats.where(bus_id: id).where(" seat_no > ? ", total_seat).destroy_all
+      seats.where(" seat_no > ? ", total_seat).destroy_all
     end
   end
 
   def send_approval_email
-    ApprovalEmailsJob.set(wait: 1.week).perform_later(self)
+    ApprovalEmailsJob.set(wait: 5.seconds).perform_later(self)
   end
 end
 
