@@ -4,6 +4,18 @@ class Reservation < ApplicationRecord
   belongs_to :seat
   validates :date, presence: { message: "should be given" }
   validate :bus_must_be_approved
+  validate :date_not_in_past
+  
+  module Exception
+    class InvalidTransaction < StandardError; end
+  end
+
+  def date_not_in_past
+    if date.present? && date < Date.today
+      errors.add(:date, "should not be in the past")
+    end
+  end
+
 
   def bus_must_be_approved
     unless bus&.approved?
@@ -28,9 +40,25 @@ class Reservation < ApplicationRecord
       return false if Reservation.check_booked?(seat_id, bus_id, date)
       Reservation.new(user_id: user_id, bus_id: bus_id, seat_id: seat_id, date: date)
     end
-    Reservation.transaction do
-      Reservation.import(reservations.compact) # Using 'activerecord-import' gem
+    # Reservation.transaction do
+    #   Reservation.import(reservations.compact) # Using 'activerecord-import' gem
+    # end
+    # true
+
+    errors = []
+    begin
+      ActiveRecord::Base.transaction do
+        res = Reservation.import(reservations.compact, validate: true)
+        if res.failed_instances.present?
+          res.failed_instances.each do |invalid_record|
+            errors << invalid_record.errors.full_messages
+          end
+          raise Exception::InvalidTransaction
+        end
+      end
+    rescue Exception::InvalidTransaction
+      return errors
     end
-    true
+    return true
   end
 end
