@@ -13,7 +13,7 @@
 					<div class = "card-body pt-0 mt-0">
 						<div class = "text-center">
 							<h4 class = "card-title">Bus name : <%= @bus.name %></h4>
-							<% unless current_user.user? %>
+							<% if current_user&.admin? || current_user&.bus_owner? %>
 							<p class = "text-muted mb-2">Owner : <%= @busowner.name %></p>
 							<% end %>
 						</div>
@@ -27,7 +27,7 @@
 					<div class = "d-flex justify-content-between">
 						<span>Route:</span><span><%= @bus.route %></span>
 					</div>
-					<% if current_user.admin? || current_user.bus_owner? %>
+					<% if current_user&.admin? || current_user&.bus_owner? %>
 							<div class = "d-flex justify-content-between">
 								<span>Status:</span>
 								<%= turbo_frame_tag @bus do %>
@@ -50,7 +50,7 @@
 								<% end %>
 							<% end %>
 
-							<% if current_user.admin? %>
+							<% if current_user&.admin? %>
 								<%= turbo_frame_tag "turbo_buttons_#{@bus.id}" do %>
 									<% if @bus.approved? %>
 										<%= link_to "Disapprove", disapprove_path(@busowner.id, @bus.id), data: { turbo_frame: "bus_#{@bus.id}" }, data: { 'turbo-method': :patch }, class: "btn btn-outline-danger m-2" %>

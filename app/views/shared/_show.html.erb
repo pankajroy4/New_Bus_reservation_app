@@ -7,7 +7,7 @@
               <div class="col-md-4 gradient-custom text-center profile"> 
               <%= image_tag "default_profile_icon.png", class: "img-fluid my-5 profile_pic", style: "width:80px" %>
               <h5> <%= user.name %></h5>
-              <p><%= user.role %></p>
+              <p><%= user.role.titleize %></p>
               <% if policy(user).update? %>
                 <h6><%= link_to "My Bookings", bookings_path(user.id), class: "btn btn-outline-success mt-2" %></h6> 
               <% end %>
