@@ -13,10 +13,10 @@ class User < ApplicationRecord
   scope :bus_owner, -> { where(role: "bus_owner") }
 
   def generate_otp
-    self.otp = "%06d" % rand(10 ** 6)
+    plain_text_otp = "%06d" % rand(10 ** 6)
+    self.otp = BCrypt::Password.create(plain_text_otp)
     self.otp_sent_at = Time.now
-    self.save!
-    self.otp
+    plain_text_otp
   end
 
   def validate_registration_no
@@ -29,17 +29,18 @@ class User < ApplicationRecord
     return false if otp.blank? || otp_sent_at.nil?
     otp_age = Time.now - otp_sent_at
     return false if otp_age > 5.minutes
-    otp == self.otp
+    BCrypt::Password.new(self.otp) == otp
   end
 
   def send_confirmation_instructions
-    generate_otp
-    UserMailer.custom_confirmation_instructions(self, confirmation_token, otp: otp).deliver_now
+    otp = generate_otp
+    self.save!
+    UserMailer.custom_confirmation_instructions(self, confirmation_token, otp).deliver_now
   end
 
   def generate_and_send_otp
     otp = generate_otp
-    update(otp: otp)
+    self.save!
     OtpVerificationMailer.otp_verification_mailer(self, otp).deliver_now
   end
 end
