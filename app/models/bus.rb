@@ -12,6 +12,16 @@ class Bus < ApplicationRecord
   before_destroy :delete_seats
 
   scope :approved, -> { where(approved: true) }
+  
+  # we can also use enum here :
+  # enum approved: {approved: true, not_approved: false}
+  # enum can we used as:
+  # Bus.approved , this will gives all approved buses 
+  # Bus.not_approved, this will give all not approved buses
+  # @bus.approved? , it will give true/false 
+  # @bus.not_approved? , it will give true/false
+# So, basically , here we got two method by using enum
+  
   scope :search_by_name_or_route, ->(query) {
           sanitized_string = sanitize_sql_like(query)
           where("name LIKE ? OR route LIKE ?", "%#{sanitized_string}%", "%#{sanitized_string}%")

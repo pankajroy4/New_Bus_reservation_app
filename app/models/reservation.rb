@@ -14,7 +14,7 @@ class Reservation < ApplicationRecord
   def self.display_searched_date_seats(bus, date)
     reservations_on_searched_date = bus.reservations.where(date: date)
     seat_ids_booked = reservations_on_searched_date.pluck(:seat_id)
-    bus.seats.where.not(id: seat_ids_booked)
+    bus.seats.where(id: seat_ids_booked)
   end
 
   def self.check_booked?(seat_id, bus_id, date)
