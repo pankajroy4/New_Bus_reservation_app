@@ -1,0 +1,21 @@
+
+  <h2>Bus Reservation Ticket</h2>
+  <% reservations.each do |reservation| %>
+    <% seat = reservation.seat %>
+    <% bus = seat.bus %>
+    <div class="ticket">
+      <div class="ticket-header">
+      </div>
+      <div class="ticket-details">
+        <p><strong>User:</strong> <%= user.name %></p>
+        <p><strong>Reservation ID:</strong> <%= reservation.id %></p>
+        <p><strong>Bus:</strong> <%= bus.name %></p>
+        <p><strong>Seat Number:</strong> <%= seat.seat_no %></p>
+        <!-- Add more details as needed -->
+      </div>
+      <!-- Additional ticket information can be added here -->
+      <div class="ticket-footer">
+      </div>
+    </div>
+  <% end %>
+  <p>Thank you for choosing our bus reservation system!</p>

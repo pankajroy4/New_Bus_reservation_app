@@ -36,6 +36,8 @@ Rails.application.routes.draw do
   patch "approve/:user_id/:id", to: "admins#approve", as: :approve
   patch "disapprove/:user_id/:id", to: "admins#disapprove", as: :disapprove
 
+  get "/download_pdf", to: "reservations#download_pdf", as: :pdf_download
+  # pdf_download_path
   authenticate :user do
     mount Sidekiq::Web => "/sidekiq"
   end

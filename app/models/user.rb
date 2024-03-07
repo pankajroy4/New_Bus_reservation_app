@@ -6,6 +6,8 @@ class User < ApplicationRecord
 
   has_many :reservations, dependent: :destroy
   has_many :buses, dependent: :destroy
+  has_one_attached :ticket_pdf
+  has_one_attached :profile_pic
 
   # has_many :buses, -> { where(role: 'bus_owner') }, dependent: :destroy
 

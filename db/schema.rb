@@ -41,6 +41,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_23_164518) do
 
   create_table "buses", force: :cascade do |t|
     t.string "name"
+    t.string "main_image"
     t.string "registration_no"
     t.string "route"
     t.integer "total_seat"
@@ -75,6 +76,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_23_164518) do
     t.string "name"
     t.integer "role"
     t.string "registration_no"
+    t.string "ticket_pdf"
+    t.string "profile_pic"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"

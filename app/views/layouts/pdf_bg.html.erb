@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,600,700&display=swap" rel="stylesheet">     
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <style>
+	    table {
+				border-collapse: collapse !important;
+				width: 100%;
+				margin-bottom: 20px;
+			}
+
+			table thead {
+				display: table-header-group;
+				height: 1.1cm;
+			}
+
+			table tfoot {
+				display: table-row-group;
+			}
+
+			table tr {
+				page-break-inside: avoid !important;
+			}
+
+			
+    </style>
+
+  </head>
+
+  <body style="font-family: 'Nunito Sans', sans-serif;">
+	<%= yield %>      
+  </body>
+</html>
