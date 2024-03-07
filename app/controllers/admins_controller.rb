@@ -4,6 +4,10 @@ class AdminsController < ApplicationController
 
   def show
     @user = current_user
+    respond_to do |format|
+      format.html { render :show }
+      format.json { render json: @user.as_json(except: [:otp, :otp_sent_at]) }
+    end
   end
 
   def approve
@@ -12,7 +16,8 @@ class AdminsController < ApplicationController
     if @bus.approve!
       respond_to do |format|
         format.html { redirect_to bus_owner_bus_path(@busowner, @bus), notice: "Bus approved successfully!." }
-        format.turbo_stream { flash.now[:notice] = "Bus Approved successfully!." }
+        format.turbo_stream { flash.now[:notice] = "Bus approved successfully!." }
+        format.json { render json: { bus_owner: @bus_owner.as_json(except: [:otp, :otp_sent_at]), bus: @bus }, status: :created }
       end
     end
   end
@@ -24,6 +29,7 @@ class AdminsController < ApplicationController
       respond_to do |format|
         format.html { redirect_to bus_owner_bus_path(@busowner, @bus), notice: "Bus Disapproved successfully!." }
         format.turbo_stream { flash.now[:alert] = "Bus Dispproved successfully!." }
+        format.json { render json: { bus_owner: @bus_owner.as_json(except: [:otp, :otp_sent_at]), bus: @bus }, status: :created }
       end
     end
   end
