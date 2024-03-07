@@ -57,8 +57,8 @@ class Reservation < ApplicationRecord
         end
       end
     rescue Exception::InvalidTransaction
-      return errors
+      return {success: false, errors: errors.flatten}
     end
-    return true
+    return {success: true, errors: errors.flatten}
   end
 end

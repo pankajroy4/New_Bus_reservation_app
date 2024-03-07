@@ -17,18 +17,24 @@ class ReservationsController < ApplicationController
     seat_ids = param[:seat_ids]
     date = param[:date]
     parsed_date = Date.parse(date)
-    @success = Reservation.create_reservations(user_id, bus_id, seat_ids, parsed_date)
+    res = Reservation.create_reservations(user_id, bus_id, seat_ids, parsed_date) if !seat_ids.blank?
     respond_to do |format|
-      if !@success.is_a?(Array)
-        format.html { redirect_to bookings_path(user_id), notice: "Booking successful!" }
-        format.turbo_stream { redirect_to bookings_path(user_id), notice: "Booking successful!" }
-        format.json { render json: { bookings: current_user.reservations, message: "Booking successfull!" } }
-      else
-        # binding.pry
-        flash[:alert] = @success[0][0]
+      if !res
+        flash[:alert] = "Select Date & Seats first!"
         format.html { render :new, status: :unprocessable_entity }
-        format.turbo_stream { flash.now[:alert] = @success[0][0] }
+        format.turbo_stream { flash.now[:alert] = "Select Date & Seats first!" }
         format.json { render json: { errors: "Select Date & Seats first!" }, status: :unprocessable_entity }
+      else
+        if (res[:success])
+          format.html { redirect_to bookings_path(user_id), notice: "Booking successful!" }
+          format.turbo_stream { redirect_to bookings_path(user_id), notice: "Booking successful!" }
+          format.json { render json: { bookings: current_user.reservations, message: "Booking successfull!" } }
+        else
+        flash[:alert] = res[:errors][0]
+        format.html { render :new, status: :unprocessable_entity }
+        format.turbo_stream { flash.now[:alert] = res[:errors][0] }
+        format.json { render json: { errors: res[:errors][0] }, status: :unprocessable_entity }
+        end
       end
     end
   end
