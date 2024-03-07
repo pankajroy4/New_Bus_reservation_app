@@ -10,7 +10,6 @@ Rails.application.routes.draw do
   devise_scope :user do
     get "/admin_login", to: "users/sessions#new"
     get "/otp_verification", to: "users/confirmations#otp_verification", as: :verify
-    patch "/verification", to: "users/sessions#otp_verification", as: :verify_login
     patch "/resend_otp", to: "users/sessions#resend_otp", as: :resend_otp
   end
 
