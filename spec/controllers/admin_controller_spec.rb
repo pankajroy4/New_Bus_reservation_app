@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe AdminsController, type: :controller do
   let(:user) { create(:admin) }
   let(:busowner) { create(:bus_owner) }
-  let(:bus) { create(:bus, bus_owner: busowner) }
+  let(:bus) { create(:bus, user: busowner) }
 
   before { sign_in user }
 
@@ -16,7 +16,7 @@ RSpec.describe AdminsController, type: :controller do
 
   describe "POST #approve" do
     it "approves a bus in Turbo Stream format" do
-      post :approve, params: { bus_owner_id: busowner.id, id: bus.id }, format: :turbo_stream
+      post :approve, params: { user_id: busowner.id, id: bus.id }, format: :turbo_stream
       expect(response).to be_successful
       is_expected.to render_template("admins/approve")
     end
@@ -24,7 +24,7 @@ RSpec.describe AdminsController, type: :controller do
 
   describe "POST #disapprove" do
     it "disapproves a bus in Turbo Stream format" do
-      post :disapprove, params: { bus_owner_id: busowner.id, id: bus.id }, format: :turbo_stream
+      post :disapprove, params: { user_id: busowner.id, id: bus.id }, format: :turbo_stream
       expect(response).to be_successful
       is_expected.to render_template("admins/disapprove")
     end

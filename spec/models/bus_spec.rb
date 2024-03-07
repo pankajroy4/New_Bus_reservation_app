@@ -1,25 +1,24 @@
+require "rails_helper"
+require "shoulda/matchers"
 
-require 'rails_helper'
-require 'shoulda/matchers'
-
-RSpec.describe Bus,  type: :model do
-  let(:bus) { create(:bus) }
-
+RSpec.describe Bus, type: :model do
+  let(:bus_owner) { create(:bus_owner) }
+  let(:bus) { create(:bus, user: bus_owner) }
   let(:user) { create(:user) }
-  
+
   let(:duplicate_bus) { bus.dup }
-  
+
   context "Associations" do
-    it { is_expected.to belong_to(:bus_owner).class_name("User").with_foreign_key("bus_owner_id") }
+    it { is_expected.to belong_to(:user) }
     it { is_expected.to have_many(:reservations).dependent(:destroy) }
     it { is_expected.to have_many(:seats).dependent(:destroy) }
-    it { is_expected.to have_one_attached(:main_image) } 
+    it { is_expected.to have_one_attached(:main_image) }
   end
 
-  context "Validations" do 
+  context "Validations" do
     it "is valid with valid attributes" do
       expect(bus).to be_valid
-    end                                    
+    end
 
     it "is not valid without a name" do
       bus.name = ""
@@ -39,8 +38,7 @@ RSpec.describe Bus,  type: :model do
     it "is not valid with a duplicate registration_no" do
       expect(duplicate_bus).not_to be_valid
     end
-
-  end 
+  end
 
   context "Callbacks" do
     it "creates seats after creating a bus" do
@@ -54,7 +52,7 @@ RSpec.describe Bus,  type: :model do
 
     it "deletes seats and reservations when a bus is destroyed" do
       bus.approved = true
-      selected_seats = bus.seats.sample(10) 
+      selected_seats = bus.seats.sample(10)
       selected_seats.map do |seat|
         create(:reservation, user: user, bus: bus, seat: seat)
       end
@@ -66,12 +64,12 @@ RSpec.describe Bus,  type: :model do
   end
 
   context "Scopes" do
-    it "returns approved buses" do      
+    it "returns approved buses" do
       approved_bus = FactoryBot.create(:bus, :approved_bus)
       expect(Bus.approved).to match_array(approved_bus)
     end
 
-    it "do not return unapproved bus" do 
+    it "do not return unapproved bus" do
       expect(Bus.approved).not_to match_array(bus)
     end
 
@@ -85,21 +83,20 @@ RSpec.describe Bus,  type: :model do
   context "Methods" do
     it "approves and send email" do
       bus.approved = false
-      expect {bus.approve!}.to have_enqueued_job(ApprovalEmailsJob).on_queue("default")
+      expect { bus.approve! }.to have_enqueued_job(ApprovalEmailsJob).on_queue("default")
       expect(bus.approved).to be_truthy
     end
 
     it "disapproves and delete all reservations and send email" do
       bus.approved = true
-      selected_seats = bus.seats.sample(15) 
+      selected_seats = bus.seats.sample(15)
       selected_seats.map do |seat|
         create(:reservation, user: user, bus: bus, seat: seat)
       end
       expect(bus.reservations.count).to eq(15)
-      expect{bus.disapprove! }.to have_enqueued_job(ApprovalEmailsJob).on_queue("default")
+      expect { bus.disapprove! }.to have_enqueued_job(ApprovalEmailsJob).on_queue("default")
       expect(bus.approved).to be_falsey
       expect(bus.reservations.count).to eq(0)
     end
   end
-
 end

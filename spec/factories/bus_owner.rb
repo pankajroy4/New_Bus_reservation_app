@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :bus_owner do
+  factory :bus_owner,class: "User" do
     name { Faker::Name.name }
     email { Faker::Internet.email }
     password { "111111" }
