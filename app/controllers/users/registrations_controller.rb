@@ -21,10 +21,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :role, :registration_no])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :role, :registration_no, :profile_pic])
   end
 
   def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :registration_no])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :registration_no, :profile_pic])
   end
 end

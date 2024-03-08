@@ -4,8 +4,12 @@
       <div class = "col col-lg-6 mb-4 mb-lg-0">
         <div class = "card mb-3 shadow" style = "border-radius: .5rem;">
           <div class = "row g-0">
-              <div class="col-md-4 gradient-custom text-center profile"> 
-              <%= image_tag "default_profile_icon.png", class: "img-fluid my-5 profile_pic", style: "width:80px" %>
+            <div class="col-md-4 gradient-custom text-center profile"> 
+              <% if user.profile_pic.attached? %>
+			          <%= image_tag user.profile_pic, class: "img-fluid my-5 profile-pic rounded-circle", style: "width:200px; height: 200px; border: 2px solid #fff;  object-fit: cover;" %>
+						  <% else %>
+							  <%= image_tag "default_profile_icon.png", class: "img-fluid my-5 profile-pic rounded-circle", style: "width:200px; border: 2px solid #fff;  object-fit: cover;" %>
+						  <% end %>
               <h5> <%= user.name %></h5>
               <p><%= user.role.titleize %></p>
               <% if policy(user).update? %>
