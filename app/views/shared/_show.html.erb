@@ -6,7 +6,7 @@
           <div class = "row g-0">
             <div class="col-md-4 gradient-custom text-center profile"> 
               <% if user.profile_pic.attached? %>
-			          <%= image_tag user.profile_pic, class: "img-fluid my-5 profile-pic rounded-circle", style: "width:200px; height: 200px; border: 2px solid #fff;  object-fit: cover;" %>
+			          <%= image_tag url_for(user.profile_pic), class: "img-fluid my-5 profile-pic rounded-circle", style: "width:200px; height: 200px; border: 2px solid #fff;  object-fit: cover;" %>
 						  <% else %>
 							  <%= image_tag "default_profile_icon.png", class: "img-fluid my-5 profile-pic rounded-circle", style: "width:200px; border: 2px solid #fff;  object-fit: cover;" %>
 						  <% end %>

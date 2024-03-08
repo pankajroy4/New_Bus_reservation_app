@@ -20,7 +20,7 @@
                 </div>
                 <div class = "col-lg-2 mx-auto">
                   <% if bus.main_image.attached? %>
-                    <%= image_tag bus.main_image, class: "ml-lg-5 order-1 order-lg-2 img-fluid" %>
+                    <%= image_tag url_for(bus.main_image), class: "ml-lg-5 order-1 order-lg-2 img-fluid" %>
                   <% else %>
                     <%= image_tag "bus_logo2.png", class: "ml-lg-5 order-1 order-lg-2 img-fluid", style: "width:180px" %>
                   <% end %>

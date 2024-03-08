@@ -59,7 +59,7 @@ class ReservationsController < ApplicationController
 
   def booking
     @user = params[:user_id]
-    @bookings = policy_scope(Reservation)
+    @bookings = policy_scope(Reservation).includes(:seat, :bus, :user)  # Eager load associated records to avoid N+1 queries
     respond_to do |format|
       format.html { render :booking }
       format.json { render json: { bookings: @bookings, user: current_user.as_json(except: [:otp, :otp_sent_at]) } }
@@ -68,7 +68,7 @@ class ReservationsController < ApplicationController
 
   def download_pdf
     subpath = "download_pdf"
-    reservations = current_user.reservations
+    reservations = current_user.reservations.includes(:bus, :seat) 
 
     data = WickedPdf.new.pdf_from_string(
       render_to_string(
@@ -90,6 +90,36 @@ class ReservationsController < ApplicationController
     save_path.unlink
     redirect_to rails_blob_url(current_user.ticket_pdf, disposition: "attachment")
   end
+
+    # def download_pdf
+  #   subpath = "download_pdf"
+  #   reservations = current_user.reservations.includes(:bus, :seat) 
+  
+  #   pdf_data = render_to_string(
+  #     "reservations/#{subpath}",
+  #     layout: "layouts/pdf_bg", locals: { user: current_user, reservations: reservations },
+  #   )
+  
+  #   pdf_options = {
+  #     header: { right: "page [page] of [topage]", left: Time.zone.now.strftime("%e %b, %Y") },
+  #     footer: { right: "Thank You!", left: "Have a safe journey!" },
+  #   }
+  
+  #   pdf = WickedPdf.new.pdf_from_string(pdf_data, pdf_options)
+  
+  #   temp_file = Tempfile.new(["ticket", ".pdf"])
+  #   temp_file.binmode
+  #   temp_file.write(pdf)
+  #   temp_file.rewind
+  
+  #   current_user.ticket_pdf.attach(io: temp_file, filename: "ticket-#{Time.zone.now.to_i}-#{current_user.id}.pdf", content_type: "application/pdf")
+  
+  #   temp_file.close
+  #   temp_file.unlink
+  
+  #   redirect_to rails_blob_url(current_user.ticket_pdf, disposition: "attachment")
+  # end
+  
 
   #For direct Download:
   # def download_pdf
