@@ -224,6 +224,9 @@ GEM
     rails-html-sanitizer (1.6.0)
       loofah (~> 2.21)
       nokogiri (~> 1.14)
+    rails-i18n (7.0.9)
+      i18n (>= 0.7, < 2)
+      railties (>= 6.0.0, < 8)
     rails_admin (3.1.2)
       activemodel-serializers-xml (>= 1.0)
       kaminari (>= 0.14, < 2.0)
@@ -360,6 +363,7 @@ DEPENDENCIES
   pundit (~> 2.3)
   rails (~> 7.0.7)
   rails-controller-testing
+  rails-i18n
   rails_admin
   redis (~> 4.0)
   rotp

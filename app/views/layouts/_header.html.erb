@@ -19,6 +19,8 @@
 					<li class = "nav-item username">
 						<% if current_user&.admin? %>
 							<%= link_to current_user.name, admin_show_path(current_user&.id), class: "btn btn-outline-light username_link" %>
+							<%= link_to "change to Hi", locale_path(locale: 'hi'), data: {turbo_method: :patch} ,class: "btn btn-outline-light" %>
+							<%= link_to "change to En", locale_path(locale: 'en'), data: {turbo_method: :patch} ,class: "btn btn-outline-light" %>
 							<% else %>
 							<%= link_to current_user.name, current_user, class: "btn btn-outline-light username_link" %>
 						<% end %>

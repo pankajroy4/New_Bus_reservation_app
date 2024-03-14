@@ -1,0 +1,6 @@
+en:
+  controllers:
+    admins:
+      message:
+        bus_approval_message: "Bus approved successfully!"
+        bus_disapproval_message: "Bus disapproved successfully!"

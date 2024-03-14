@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   get "/get_resv_list/:bus_id", to: "buses#reservations_list", as: :get_resv_list
   patch "approve/:user_id/:id", to: "admins#approve", as: :approve
   patch "disapprove/:user_id/:id", to: "admins#disapprove", as: :disapprove
+  patch "locale", to: "homes#change_locale", as: :locale
 
   get "/download_pdf", to: "reservations#download_pdf", as: :pdf_download
   # pdf_download_path

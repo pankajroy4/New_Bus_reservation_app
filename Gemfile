@@ -6,6 +6,7 @@ gem 'rails_admin'
 gem "bootstrap", "~>5.1", ">=5.1.3"  #Added
 gem "rotp"
 gem "chartkick", '~>3.4.2'
+gem 'rails-i18n'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.7"

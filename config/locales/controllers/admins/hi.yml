@@ -1,0 +1,6 @@
+hi:
+  controllers:
+    admins:
+      message:
+        bus_approval_message: "बस सफलतापूर्वक स्वीकृत!"
+        bus_disapproval_message: "बस सफलतापूर्वक अस्वीकृत!"

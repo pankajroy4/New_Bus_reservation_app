@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
   before_action :store_user_location!, if: :storable_location?
+  before_action :set_locale
 
   private
 
@@ -21,5 +22,9 @@ class ApplicationController < ActionController::Base
 
   def store_user_location!
     store_location_for(:user, request.fullpath)
+  end
+
+  def set_locale
+    I18n.locale = current_user.try(:locale) || I18n.default_locale
   end
 end
